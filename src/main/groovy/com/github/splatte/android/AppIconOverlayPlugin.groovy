@@ -27,14 +27,8 @@ class AppIconOverlayPlugin implements Plugin<Project> {
             def overlayTask = project.tasks.create(TASK_NAME)
             overlayTask.manifestFile = variant.processManifest.manifestOutputFile
             overlayTask.resourcesPath = variant.mergeResources.outputDir
-
-            def git = ["git", "rev-parse", "--short", "HEAD"].execute()
-            git.waitFor()
-            overlayTask.gitCommit = git.in.text
-
-            git = ["git", "rev-parse", "--abbrev-ref", "HEAD"].execute()
-            git.waitFor()
-            overlayTask.gitBranch = git.in.text
+            overlayTask.gitCommit = queryGit("short")
+            overlayTask.gitBranch = queryGit("abbrev-ref")
 
             overlayTask << {
                 /*
@@ -57,7 +51,7 @@ class AppIconOverlayPlugin implements Plugin<Project> {
                             "-fill", "white",
                             "-gravity", "center",
                             "-size", "${img.width}x${img.height / 2}",
-                            "caption:${gitBranch}:${gitCommit}",
+                            "caption:${gitBranch}\n${gitCommit}",
                             file,
                             "+swap",
                             "-gravity", "south",
@@ -77,5 +71,11 @@ class AppIconOverlayPlugin implements Plugin<Project> {
             /* hook overlay task into android build chain */
             variant.processResources.dependsOn overlayTask
         }
+    }
+
+    def queryGit(def command) {
+        def git = ["git", "rev-parse", "--${command}", "HEAD"].execute()
+        git.waitFor()
+        git.in.text.replaceAll(/\s/, "")
     }
 }
