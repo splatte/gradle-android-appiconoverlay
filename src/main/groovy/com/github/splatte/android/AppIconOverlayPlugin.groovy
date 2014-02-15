@@ -5,6 +5,8 @@ import com.android.builder.BuilderConstants
 
 import groovy.io.FileType
 
+import javax.imageio.ImageIO
+
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -25,6 +27,15 @@ class AppIconOverlayPlugin implements Plugin<Project> {
             def overlayTask = project.tasks.create(TASK_NAME)
             overlayTask.manifestFile = variant.processManifest.manifestOutputFile
             overlayTask.resourcesPath = variant.mergeResources.outputDir
+
+            def git = ["git", "rev-parse", "--short", "HEAD"].execute()
+            git.waitFor()
+            overlayTask.gitCommit = git.in.text
+
+            git = ["git", "rev-parse", "--abbrev-ref", "HEAD"].execute()
+            git.waitFor()
+            overlayTask.gitBranch = git.in.text
+
             overlayTask << {
                 /*
                  * parse AndroidManifest.xml
@@ -38,8 +49,21 @@ class AppIconOverlayPlugin implements Plugin<Project> {
                     dir.eachFileMatch(FileType.FILES, ~"^${iconFileName}.*") { file ->
                         log.debug("found file: ${file}")
 
+                        def img = ImageIO.read(file);
+
                         /* invoke ImageMagick */
-                        def imagemagick = ["convert", "-type", "Grayscale", file, file].execute()
+                        def imagemagick = ["convert",
+                            "-background", "#0008",
+                            "-fill", "white",
+                            "-gravity", "center",
+                            "-size", "${img.width}x${img.height / 2}",
+                            "caption:${gitBranch}:${gitCommit}",
+                            file,
+                            "+swap",
+                            "-gravity", "south",
+                            "-composite",
+                            file]
+                        .execute()
                         imagemagick.waitFor()
 
                         /* print error, if any */
