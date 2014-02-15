@@ -1,0 +1,14 @@
+apply plugin: 'groovy'
+
+group = 'com.github.splatte'
+version = '1.0'
+
+dependencies {
+    repositories {
+        mavenCentral()
+    }
+
+    compile gradleApi()
+    compile localGroovy()
+    compile 'com.android.tools.build:gradle:0.8.+'
+}
