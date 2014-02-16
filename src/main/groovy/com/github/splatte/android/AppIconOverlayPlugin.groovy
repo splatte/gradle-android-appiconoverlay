@@ -42,4 +42,13 @@ class AppIconOverlayExtension {
      * Background color for overlay in #rrggbbaa format.
      */
     String backgroundColor = "#0008"
+
+    /**
+     * Format string to be used to create the text in the overlay.
+     * Note: Use single quotes, it's a GString.
+     * The following variables are available:
+     *     - $branch: name of git branch
+     *     - $commit: short SHA1 of latest commit in current branch
+     */
+    String format = '$branch\n$commit'
 }

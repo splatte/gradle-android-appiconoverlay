@@ -32,7 +32,14 @@ The plugin offers some options for customizing the appearance of the generated i
 
 ```groovy
 appiconoverlay {
-    textColor '#ff0000'      /* #rrggbbaa format */
-    backgroundColor "#fff8"  /* #rrggbbaa format */
+    textColor '#FFF'           /* #rrggbbaa format */
+    backgroundColor "#0008"    /* #rrggbbaa format */
+    format '$branch\n$commit'  /* GString */
 }
 ```
+
+Option                 | Description
+---------------------- | ------------------
+`textColor`            | Text color in #rrggbbaa format.
+`backgroundColor`      | Background color for overlay in #rrggbbaa format.
+`format`               | Format string to be used to create the text in the overlay.<br />*Note*: Use single quotes, it's a GString.<br />The following variables are available: <ul><li>`$branch` name of git branch</li> <li>`$commit` short SHA1 of latest commit in current branch</li></ul>

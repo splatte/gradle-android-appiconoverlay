@@ -1,6 +1,7 @@
 package com.github.splatte.android
 
 import groovy.io.FileType
+import groovy.text.SimpleTemplateEngine
 
 import javax.imageio.ImageIO
 
@@ -29,6 +30,8 @@ class OverlayTask extends DefaultTask {
                 logger.debug("found file: ${file}")
 
                 def img = ImageIO.read(file);
+                def formatBinding = ['branch': gitBranch, 'commit': gitCommit]
+                def caption = new SimpleTemplateEngine().createTemplate(project.appiconoverlay.format).make(formatBinding)
 
                 /* invoke ImageMagick */
                 def imagemagick = ["convert",
@@ -36,7 +39,7 @@ class OverlayTask extends DefaultTask {
                     "-fill", "${project.appiconoverlay.textColor}",
                     "-gravity", "center",
                     "-size", "${img.width}x${img.height / 2}",
-                    "caption:${gitBranch}\n${gitCommit}",
+                    "caption:${caption}",
                     file,
                     "+swap",
                     "-gravity", "south",
