@@ -1,11 +1,6 @@
 package com.github.splatte.android
 
-import com.android.build.gradle.tasks.PackageApplication
 import com.android.builder.BuilderConstants
-
-import groovy.io.FileType
-
-import javax.imageio.ImageIO
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -24,58 +19,13 @@ class AppIconOverlayPlugin implements Plugin<Project> {
             }
 
             /* set up overlay task */
-            def overlayTask = project.tasks.create(TASK_NAME)
-            overlayTask.manifestFile = variant.processManifest.manifestOutputFile
-            overlayTask.resourcesPath = variant.mergeResources.outputDir
-            overlayTask.gitCommit = queryGit("short")
-            overlayTask.gitBranch = queryGit("abbrev-ref")
-
-            overlayTask << {
-                /*
-                 * parse AndroidManifest.xml
-                 * find file name for app icon in <application .. android:icon="@drawable/ic_launcher">
-                 */
-                def manifestXml = new XmlSlurper().parse(manifestFile)
-                def iconFileName = manifestXml.application.@icon.text().split("/")[1]
-
-                /* find the app icon files in all 'drawable' folders */
-                resourcesPath.eachDirMatch(~/^drawable.*/) { dir ->
-                    dir.eachFileMatch(FileType.FILES, ~"^${iconFileName}.*") { file ->
-                        log.debug("found file: ${file}")
-
-                        def img = ImageIO.read(file);
-
-                        /* invoke ImageMagick */
-                        def imagemagick = ["convert",
-                            "-background", "#0008",
-                            "-fill", "white",
-                            "-gravity", "center",
-                            "-size", "${img.width}x${img.height / 2}",
-                            "caption:${gitBranch}\n${gitCommit}",
-                            file,
-                            "+swap",
-                            "-gravity", "south",
-                            "-composite",
-                            file]
-                        .execute()
-                        imagemagick.waitFor()
-
-                        /* print error, if any */
-                        if(imagemagick.exitValue() != 0) {
-                            log.error("ImageMagick with error code ${imagemagick.exitValue()} and: ${imagemagick.err.text}")
-                        }
-                    }
-                }
+            def overlayTask = project.task(type:OverlayTask, "${TASK_NAME}${variant.buildType.name}") {
+                manifestFile = variant.processManifest.manifestOutputFile
+                resourcesPath = variant.mergeResources.outputDir
             }
 
             /* hook overlay task into android build chain */
             variant.processResources.dependsOn overlayTask
         }
-    }
-
-    def queryGit(def command) {
-        def git = ["git", "rev-parse", "--${command}", "HEAD"].execute()
-        git.waitFor()
-        git.in.text.replaceAll(/\s/, "")
     }
 }
