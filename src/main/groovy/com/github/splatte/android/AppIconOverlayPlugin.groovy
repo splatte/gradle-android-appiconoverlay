@@ -11,6 +11,8 @@ class AppIconOverlayPlugin implements Plugin<Project> {
     void apply(Project project) {
         def log = project.logger
 
+        project.extensions.create("appiconoverlay", AppIconOverlayExtension)
+
         project.android.applicationVariants.all { variant ->
             /* skip release builds */
             if(variant.buildType.name.equals(BuilderConstants.RELEASE)) {
@@ -28,4 +30,16 @@ class AppIconOverlayPlugin implements Plugin<Project> {
             variant.processResources.dependsOn overlayTask
         }
     }
+}
+
+class AppIconOverlayExtension {
+    /**
+     * Text color in #rrggbbaa format.
+     */
+    String textColor = "#FFF"
+
+    /**
+     * Background color for overlay in #rrggbbaa format.
+     */
+    String backgroundColor = "#0008"
 }

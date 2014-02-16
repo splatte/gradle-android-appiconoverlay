@@ -32,8 +32,8 @@ class OverlayTask extends DefaultTask {
 
                 /* invoke ImageMagick */
                 def imagemagick = ["convert",
-                    "-background", "#0008",
-                    "-fill", "white",
+                    "-background", "${project.appiconoverlay.backgroundColor}",
+                    "-fill", "${project.appiconoverlay.textColor}",
                     "-gravity", "center",
                     "-size", "${img.width}x${img.height / 2}",
                     "caption:${gitBranch}\n${gitCommit}",
