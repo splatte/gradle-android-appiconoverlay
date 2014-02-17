@@ -45,3 +45,7 @@ Option                 | Description
 `backgroundColor`      | Background color for overlay in #rrggbbaa format.
 `format`               | Format string to be used to create the text in the overlay.<br />*Note*: Use single quotes, it's a GString.<br />The following variables are available: <ul><li>`$branch` name of git branch</li> <li>`$commit` short SHA1 of latest commit in current branch</li></ul>
 `imageMagick`          | Command to run ImageMagick's "convert".
+
+
+## Credits
+Based on the [IconOverlaying](https://github.com/krzysztofzablocki/IconOverlaying) project by Krzysztof Zabłocki, which implements a similar feature for iOS builds.
