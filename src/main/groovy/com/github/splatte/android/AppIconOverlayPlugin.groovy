@@ -27,6 +27,7 @@ class AppIconOverlayPlugin implements Plugin<Project> {
             }
 
             /* hook overlay task into android build chain */
+            overlayTask.dependsOn variant.processManifest
             variant.processResources.dependsOn overlayTask
         }
     }
