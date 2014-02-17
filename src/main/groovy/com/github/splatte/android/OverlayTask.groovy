@@ -12,9 +12,6 @@ class OverlayTask extends DefaultTask {
     File manifestFile
     File resourcesPath
 
-    String gitCommit = queryGit("short")
-    String gitBranch = queryGit("abbrev-ref")
-
     @TaskAction
     def overlay() {
         /*
@@ -30,7 +27,7 @@ class OverlayTask extends DefaultTask {
                 logger.debug("found file: ${file}")
 
                 def img = ImageIO.read(file);
-                def formatBinding = ['branch': gitBranch, 'commit': gitCommit]
+                def formatBinding = ['branch': queryGit("abbrev-ref"), 'commit': queryGit("short")]
                 def caption = new SimpleTemplateEngine().createTemplate(project.appiconoverlay.format).make(formatBinding)
 
                 /* invoke ImageMagick */
@@ -56,8 +53,11 @@ class OverlayTask extends DefaultTask {
         }
     }
 
-    private def queryGit(def command) {
-        def git = ["git", "rev-parse", "--${command}", "HEAD"].execute()
+    def queryGit(def command) {
+        def args = ["git", "rev-parse", "--${command}", "HEAD"]
+        logger.debug("executing git: ${args.join(' ')}")
+
+        def git = args.execute(null, project.projectDir)
         git.waitFor()
         git.in.text.replaceAll(/\s/, "")
     }
