@@ -51,4 +51,9 @@ class AppIconOverlayExtension {
      *     - $commit: short SHA1 of latest commit in current branch
      */
     String format = '$branch\n$commit'
+
+    /**
+     * Command to invoke to run ImageMagick's "convert".
+     */
+    String imageMagick = "convert"
 }

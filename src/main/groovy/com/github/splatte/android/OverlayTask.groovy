@@ -34,7 +34,7 @@ class OverlayTask extends DefaultTask {
                 def caption = new SimpleTemplateEngine().createTemplate(project.appiconoverlay.format).make(formatBinding)
 
                 /* invoke ImageMagick */
-                def imagemagick = ["convert",
+                def imagemagick = ["${project.appiconoverlay.imageMagick}",
                     "-background", "${project.appiconoverlay.backgroundColor}",
                     "-fill", "${project.appiconoverlay.textColor}",
                     "-gravity", "center",
