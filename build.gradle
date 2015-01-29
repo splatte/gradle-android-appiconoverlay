@@ -10,5 +10,5 @@ dependencies {
 
     compile gradleApi()
     compile localGroovy()
-    compile 'com.android.tools.build:gradle:0.8.+'
+    compile 'com.android.tools.build:gradle:1.0.+'
 }

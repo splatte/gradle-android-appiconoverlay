@@ -1,6 +1,6 @@
 package com.github.splatte.android
 
-import com.android.builder.BuilderConstants
+import com.android.builder.core.BuilderConstants
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
