@@ -20,15 +20,17 @@ class AppIconOverlayPlugin implements Plugin<Project> {
                 return;
             }
 
-            /* set up overlay task */
-            def overlayTask = project.task(type:OverlayTask, "${TASK_NAME}${variant.buildType.name}") {
-                manifestFile = variant.processManifest.manifestOutputFile
-                resourcesPath = variant.mergeResources.outputDir
-            }
+            variant.outputs.each { output ->
+                /* set up overlay task */
+                def overlayTask = project.task(type:OverlayTask, "${TASK_NAME}${variant.buildType.name}") {
+                    manifestFile = output.processManifest.manifestOutputFile
+                    resourcesPath = variant.mergeResources.outputDir
+                }
 
-            /* hook overlay task into android build chain */
-            overlayTask.dependsOn variant.processManifest
-            variant.processResources.dependsOn overlayTask
+                /* hook overlay task into android build chain */
+                overlayTask.dependsOn output.processManifest
+                output.processResources.dependsOn overlayTask
+            }
         }
     }
 }
