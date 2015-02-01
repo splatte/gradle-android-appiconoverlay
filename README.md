@@ -10,25 +10,35 @@ Plugin for Android Gradle to automatically overlay the app icon with information
 
 
 ## Usage
-1. Checkout this project
-2. run ``gradle jar``
-3. Reference created ``build/libs/gradle-android-appiconoverlay-1.0.jar`` in your Android project's ``build.gradle`:
+1. This plugin is published on JCenter. Add dependency in your Android project's top-level `build.gradle` file:
 ```groovy
 buildscript {
    ...
    dependencies {
-        classpath files('/path/to/gradle-android-appiconoverlay/build/libs/gradle-android-appiconoverlay-1.0.jar')
+        classpath 'com.github.splatte:gradle-android-appiconoverlay:1.0'
     }
     ...
 }
-...
-apply plugin: 'app-icon-overlay'
 ```
-The plugin will hook into your build process automatically and overwrite the app icon for debug builds. It will not mess with any files in your repository.
+2. Apply the plugin in your app module's ``build.gradle`` file:
+```groovy
+apply plugin: 'com.android.application'
+    ...
+apply plugin: 'app-icon-overlay'
+appiconoverlay {
+    ... see below for configuration options
+}
+...
+android {
+    ...
+}
+```
+
+The plugin will hook into your build process automatically and overwrite the target app icon files for debug builds. It will not mess with any files in your repository.
 
 
 ## Customization
-The plugin offers some options for customizing the appearance of the generated icon. Simply add a block to your Android project's ``build.gradle``:
+The plugin offers some options for customizing the appearance of the generated icon. Simply add a block to your app module's ``build.gradle``:
 
 ```groovy
 appiconoverlay {
