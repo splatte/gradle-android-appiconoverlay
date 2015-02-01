@@ -1,0 +1,6 @@
+# rename this file to gradle.properties, it will be used by build.gradle
+
+# needed for publishing to jcenter
+# username on bintray/jcenter and corresponding REST API key
+bintray_user=
+bintray_api_key=
