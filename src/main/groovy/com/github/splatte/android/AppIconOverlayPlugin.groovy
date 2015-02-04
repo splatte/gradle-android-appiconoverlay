@@ -22,7 +22,7 @@ class AppIconOverlayPlugin implements Plugin<Project> {
 
             variant.outputs.each { output ->
                 /* set up overlay task */
-                def overlayTask = project.task(type:OverlayTask, "${TASK_NAME}${variant.buildType.name}") {
+                def overlayTask = project.task(type:OverlayTask, "${TASK_NAME}${variant.name.capitalize()}") {
                     manifestFile = output.processManifest.manifestOutputFile
                     resourcesPath = variant.mergeResources.outputDir
                 }
