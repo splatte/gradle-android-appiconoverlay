@@ -32,7 +32,7 @@ bintray {
     publications = ['main']
 
     dryRun = false
-    publish = false /* need to publish new version manually on https://bintray.com/splatte/maven/gradle-android-appiconoverlay
+    publish = false /* need to publish new version manually on https://bintray.com/splatte/maven/gradle-android-appiconoverlay */
 
     pkg {
         repo = 'maven'
