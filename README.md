@@ -10,29 +10,40 @@ Plugin for Android Gradle to automatically overlay the app icon with information
 
 
 ## Usage
+
 1. This plugin is published on JCenter. Add dependency in your Android project's top-level `build.gradle` file:
-```groovy
-buildscript {
-   ...
-   dependencies {
-        classpath 'com.github.splatte:gradle-android-appiconoverlay:1.0'
+
+    ```groovy
+    buildscript {
+        dependencies {
+            classpath 'com.github.splatte:gradle-android-appiconoverlay:1.0'
+        }
     }
-    ...
-}
-```
+    ```
+
 2. Apply the plugin in your app module's ``build.gradle`` file:
-```groovy
-apply plugin: 'com.android.application'
-    ...
-apply plugin: 'app-icon-overlay'
-appiconoverlay {
-    ... see below for configuration options
-}
-...
-android {
-    ...
-}
-```
+
+    ```groovy
+    apply plugin: 'app-icon-overlay'
+    appiconoverlay {
+        /* then see below for configuration options */
+    }
+
+    android {
+        /* project config */
+    }
+    ```
+
+3. You will need ``convert`` from the [ImageMagick](http://imagemagick.org/) project to do the image processing. You can install it using a command along the lines of:
+
+    ```bash
+    # debian/ubuntu
+    sudo apt-get install imagemagick
+
+    # osx
+    sudo port install imagemagick
+    sudo brew install imagemagick
+    ```
 
 The plugin will hook into your build process automatically and overwrite the target app icon files for debug builds. It will not mess with any files in your repository.
 
@@ -58,4 +69,4 @@ Option                 | Description
 
 
 ## Credits
-Based on the [IconOverlaying](https://github.com/krzysztofzablocki/IconOverlaying) project by Krzysztof Zabłocki, which implements a similar feature for iOS builds.
+Idea based on the [IconOverlaying](https://github.com/krzysztofzablocki/IconOverlaying) project by Krzysztof Zabłocki, which implements a similar feature for iOS builds.
