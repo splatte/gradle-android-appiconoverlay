@@ -31,8 +31,15 @@ class OverlayTask extends DefaultTask {
                 def formatBinding = ['branch': queryGit("abbrev-ref"), 'commit': queryGit("short")]
                 def caption = new SimpleTemplateEngine().createTemplate(project.appiconoverlay.format).make(formatBinding)
 
+                /*
+                 * caption might end up being only \n, in which case imagemagick will hang and the call never completes
+                 * this is most likely due to a missing .git directory, but could also be caused by an erroneous format string
+                 */
+                if(caption.toString().trim().isEmpty()) {
+                    caption = "<no git>"
+                }
+
                 /* invoke ImageMagick */
-                // TODO: when there is no .git, `caption` will be empty and the imagemagick call will never complete
                 try {
                     def imagemagick = ["${project.appiconoverlay.imageMagick}",
                         "-background", "${project.appiconoverlay.backgroundColor}",
