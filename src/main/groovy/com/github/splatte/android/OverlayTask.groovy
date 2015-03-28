@@ -65,6 +65,11 @@ class OverlayTask extends DefaultTask {
 
         def git = args.execute(null, project.projectDir)
         git.waitFor()
+
+        if(git.exitValue() != 0) {
+            logger.error("git exited with a non-zero error code. Is there a .git directory?")
+        }
+
         git.in.text.replaceAll(/\s/, "")
     }
 }
