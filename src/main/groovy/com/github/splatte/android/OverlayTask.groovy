@@ -33,23 +33,27 @@ class OverlayTask extends DefaultTask {
 
                 /* invoke ImageMagick */
                 // TODO: when there is no .git, `caption` will be empty and the imagemagick call will never complete
-                def imagemagick = ["${project.appiconoverlay.imageMagick}",
-                    "-background", "${project.appiconoverlay.backgroundColor}",
-                    "-fill", "${project.appiconoverlay.textColor}",
-                    "-gravity", "center",
-                    "-size", "${img.width}x${img.height / 2}",
-                    "caption:${caption}",
-                    file,
-                    "+swap",
-                    "-gravity", "south",
-                    "-composite",
-                    file]
-                .execute()
-                imagemagick.waitFor()
+                try {
+                    def imagemagick = ["${project.appiconoverlay.imageMagick}",
+                        "-background", "${project.appiconoverlay.backgroundColor}",
+                        "-fill", "${project.appiconoverlay.textColor}",
+                        "-gravity", "center",
+                        "-size", "${img.width}x${img.height / 2}",
+                        "caption:${caption}",
+                        file,
+                        "+swap",
+                        "-gravity", "south",
+                        "-composite",
+                        file]
+                    .execute()
+                    imagemagick.waitFor()
 
-                /* print error, if any */
-                if(imagemagick.exitValue() != 0) {
-                    logger.error("ImageMagick with error code ${imagemagick.exitValue()} and: ${imagemagick.err.text}")
+                    /* print error, if any */
+                    if(imagemagick.exitValue() != 0) {
+                        logger.error("ImageMagick with error code ${imagemagick.exitValue()} and: ${imagemagick.err.text}")
+                    }
+                } catch(IOException ioe) {
+                    logger.error("Could not find ImageMagick's \"convert\". Tried these locations: ${System.getenv('PATH')}")
                 }
             }
         }
