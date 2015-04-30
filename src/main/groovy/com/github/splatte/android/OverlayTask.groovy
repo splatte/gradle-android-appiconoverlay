@@ -28,8 +28,11 @@ class OverlayTask extends DefaultTask {
                 logger.debug("found file: ${file}")
 
                 def img = ImageIO.read(file);
+                boolean isGitDirty = project.appiconoverlay.dirtyCheck && isGitDirty();
                 def formatBinding = ['branch': queryGit("abbrev-ref"), 'commit': queryGit("short")]
-                def caption = new SimpleTemplateEngine().createTemplate(project.appiconoverlay.format).make(formatBinding)
+                def caption = new SimpleTemplateEngine().createTemplate(
+                        isGitDirty ? project.appiconoverlay.dirtyFormat : project.appiconoverlay.format)
+                        .make(formatBinding)
 
                 /*
                  * caption might end up being only \n, in which case imagemagick will hang and the call never completes
@@ -39,7 +42,6 @@ class OverlayTask extends DefaultTask {
                     caption = "<no git>"
                 }
 
-                boolean isGitDirty = project.appiconoverlay.dirtyCheck && isGitDirty();
 
                 /* invoke ImageMagick */
                 try {

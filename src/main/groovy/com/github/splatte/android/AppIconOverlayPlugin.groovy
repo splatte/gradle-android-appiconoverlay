@@ -70,4 +70,11 @@ class AppIconOverlayExtension {
      * Text color in #rrggbbaa format used when git repo is dirty. See dirtyCheck.
      */
     String dirtyColor = "#F00"
+
+    /**
+     * Format string to be used to create the text in the overlay in case repo is dirty.
+     * See format.
+     * See dirtyCheck.
+     */
+    String dirtyFormat = '$branch\n$commit (dirty)'
 }
