@@ -70,23 +70,19 @@ class OverlayTask extends DefaultTask {
 
     boolean isGitDirty() {
         // check if repo has unstaged or uncommitted changes
-        def args = ["git", "diff-index", "--quiet", "HEAD", "--"]
-        def git = args.execute(null, project.projectDir)
-        int exitValue = git.waitFor()
-        exitValue == 1
+        def process = executeShell(["git", "diff-index", "--quiet", "HEAD", "--"])
+        process.exitValue() != 0
     }
 
     def queryGit(def command) {
-        def args = ["git", "rev-parse", "--${command}", "HEAD"]
-        logger.debug("executing git: ${args.join(' ')}")
+        def process = executeShell(["git", "rev-parse", "--${command}", "HEAD"])
+        process.in.text.replaceAll(/\s/, "")
+    }
 
-        def git = args.execute(null, project.projectDir)
-        git.waitFor()
-
-        if(git.exitValue() != 0) {
-            logger.error("git exited with a non-zero error code. Is there a .git directory?")
-        }
-
-        git.in.text.replaceAll(/\s/, "")
+    def executeShell(def args) {
+        logger.debug("executing shell: ${args.join(' ')}")
+        def process = args.execute(null, project.projectDir)
+        process.waitFor()
+        process
     }
 }
