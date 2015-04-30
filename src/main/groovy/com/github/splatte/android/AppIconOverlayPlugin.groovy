@@ -59,4 +59,22 @@ class AppIconOverlayExtension {
      * Command to invoke to run ImageMagick's "convert".
      */
     String imageMagick = "convert"
+
+    /**
+     * Flag to indicate if git repo is dirty (unstaged or uncommitted changes,
+     * untracked files) to use dirtyColor as textColor.
+     */
+    boolean dirtyCheck = false
+
+    /**
+     * Text color in #rrggbbaa format used when git repo is dirty. See dirtyCheck.
+     */
+    String dirtyColor = "#F00"
+
+    /**
+     * Format string to be used to create the text in the overlay in case repo is dirty.
+     * See format.
+     * See dirtyCheck.
+     */
+    String dirtyFormat = '$branch\n$commit (dirty)'
 }

@@ -53,10 +53,13 @@ The plugin offers some options for customizing the appearance of the generated i
 
 ```groovy
 appiconoverlay {
-    textColor '#FFF'           /* #rrggbbaa format */
-    backgroundColor "#0008"    /* #rrggbbaa format */
-    format '$branch\n$commit'  /* GString */
-    imageMagick 'convert'      /* command to run ImageMagick */
+    textColor '#FFF'                        /* #rrggbbaa format */
+    backgroundColor "#0008"                 /* #rrggbbaa format */
+    format '$branch\n$commit'               /* GString */
+    imageMagick 'convert'                   /* command to run ImageMagick */
+    dirtyCheck false                        /* flag to enabled/disabled dirty check */
+    dirtyColor '#F00'                       /* #rrggbbaa format */
+    dirtyFormat '$branch\n$commit (dirty)'  /* GString */
 }
 ```
 
@@ -66,6 +69,9 @@ Option                 | Description
 `backgroundColor`      | Background color for overlay in #rrggbbaa format.
 `format`               | Format string to be used to create the text in the overlay.<br />*Note*: Use single quotes, it's a GString.<br />The following variables are available: <ul><li>`$branch` name of git branch</li> <li>`$commit` short SHA1 of latest commit in current branch</li></ul>
 `imageMagick`          | Command to run ImageMagick's "convert".
+`dirtyCheck`           | Flag to enable/disable check if repo has unstaged or uncommitted files (is dirty)
+`dirtyColor`           | Text color in #rrggbbaa format used if repo is dirty (see dirtyCheck)
+`dirtyFormat`          | Format string to be used to create the text in the overlay in case repo is dirty.<br>See format<br/>See dirtyCheck
 
 
 ## Credits
