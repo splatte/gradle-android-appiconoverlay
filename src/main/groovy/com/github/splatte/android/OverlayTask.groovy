@@ -39,11 +39,13 @@ class OverlayTask extends DefaultTask {
                     caption = "<no git>"
                 }
 
+                boolean isGitDirty = project.appiconoverlay.dirtyCheck && isGitDirty();
+
                 /* invoke ImageMagick */
                 try {
                     def imagemagick = ["${project.appiconoverlay.imageMagick}",
                         "-background", "${project.appiconoverlay.backgroundColor}",
-                        "-fill", "${project.appiconoverlay.textColor}",
+                        "-fill", isGitDirty ? "${project.appiconoverlay.dirtyColor}" : "${project.appiconoverlay.textColor}",
                         "-gravity", "center",
                         "-size", "${img.width}x${img.height / 2}",
                         "caption:${caption}",
@@ -64,6 +66,14 @@ class OverlayTask extends DefaultTask {
                 }
             }
         }
+    }
+
+    boolean isGitDirty() {
+        // check if repo has unstaged or uncommitted changes
+        def args = ["git", "diff-index", "--quiet", "HEAD", "--"]
+        def git = args.execute(null, project.projectDir)
+        int exitValue = git.waitFor()
+        exitValue == 1
     }
 
     def queryGit(def command) {
