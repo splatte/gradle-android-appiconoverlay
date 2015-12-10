@@ -25,6 +25,7 @@ class AppIconOverlayPlugin implements Plugin<Project> {
                 def overlayTask = project.task(type:OverlayTask, "${TASK_NAME}${variant.name.capitalize()}") {
                     manifestFile = output.processManifest.manifestOutputFile
                     resourcesPath = variant.mergeResources.outputDir
+                    buildVariant = "${variant.name.capitalize()}"
                 }
 
                 /* hook overlay task into android build chain */
@@ -52,8 +53,9 @@ class AppIconOverlayExtension {
      * The following variables are available:
      *     - $branch: name of git branch
      *     - $commit: short SHA1 of latest commit in current branch
+     *     - $build: the name of the build variant ex. Debug
      */
-    String format = '$branch\n$commit'
+    String format = '$build->$branch\n$commit'
 
     /**
      * Command to invoke to run ImageMagick's "convert".

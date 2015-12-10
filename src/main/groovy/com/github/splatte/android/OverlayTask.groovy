@@ -11,6 +11,7 @@ import org.gradle.api.tasks.TaskAction
 class OverlayTask extends DefaultTask {
     File manifestFile
     File resourcesPath
+    String buildVariant
 
     @TaskAction
     def overlay() {
@@ -28,7 +29,7 @@ class OverlayTask extends DefaultTask {
                 logger.debug("found file: ${file}")
 
                 def img = ImageIO.read(file);
-                def formatBinding = ['branch': queryGit("abbrev-ref"), 'commit': queryGit("short")]
+                def formatBinding = ['branch': queryGit("abbrev-ref"), 'commit': queryGit("short"), 'build': buildVariant]
                 def caption = new SimpleTemplateEngine().createTemplate(project.appiconoverlay.format).make(formatBinding)
 
                 /*
