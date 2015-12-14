@@ -1,19 +1,18 @@
-apply plugin: 'groovy'
-
-group = 'com.github.splatte'
-version = '1.2'
-
 buildscript {
     repositories {
         jcenter()
     }
-    dependencies {
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.1'
-    }
 }
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'maven-publish'
 
+plugins {
+    id "com.jfrog.bintray" version "1.4"
+}
+
+group = 'com.github.splatte'
+version = '1.2'
+
+apply plugin: 'groovy'
+apply plugin: 'maven-publish'
 
 dependencies {
     repositories {
