@@ -53,10 +53,10 @@ The plugin offers some options for customizing the appearance of the generated i
 
 ```groovy
 appiconoverlay {
-    textColor '#FFF'           	/* #rrggbbaa format */
-    backgroundColor "#0008"    	/* #rrggbbaa format */
+    textColor '#FFF'                  /* #rrggbbaa format */
+    backgroundColor "#0008"           /* #rrggbbaa format */
     format '$build->$branch\n$commit' /* GString */
-    imageMagick 'convert'     		/* command to run ImageMagick */
+    imageMagick 'convert'             /* command to run ImageMagick */
 }
 ```
 
