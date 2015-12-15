@@ -68,5 +68,21 @@ Option                 | Description
 `imageMagick`          | Command to run ImageMagick's "convert".
 
 
+## Building locally
+
+If you want to make changes to the plugin, here's how you can build it locally and test it with an Android app:
+1. Check out the project using git.
+2. In the root directory, run ```gradle jar```.
+3. Find the generated .jar file in ```./build/libs/```.
+4. To reference your local .jar file in your Android project, declare the dependency as follows in the project's top-level `build.gradle` file:
+   ```groovy
+   buildscript {
+       dependencies {
+           classpath files('/path/to/gradle-android-appiconoverlay/build/libs/gradle-android-appiconoverlay-1.2.jar')
+       }
+   }
+   ```
+
+
 ## Credits
 Idea based on the [IconOverlaying](https://github.com/krzysztofzablocki/IconOverlaying) project by Krzysztof Zabłocki, which implements a similar feature for iOS builds.
