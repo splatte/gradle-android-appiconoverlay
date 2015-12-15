@@ -16,7 +16,7 @@ Plugin for Android Gradle to automatically overlay the app icon with information
     ```groovy
     buildscript {
         dependencies {
-            classpath 'com.github.splatte:gradle-android-appiconoverlay:1.2'
+            classpath 'com.github.splatte:gradle-android-appiconoverlay:1.3'
         }
     }
     ```
@@ -78,7 +78,7 @@ If you want to make changes to the plugin, here's how you can build it locally a
    ```groovy
    buildscript {
        dependencies {
-           classpath files('/path/to/gradle-android-appiconoverlay/build/libs/gradle-android-appiconoverlay-1.2.jar')
+           classpath files('/path/to/gradle-android-appiconoverlay/build/libs/gradle-android-appiconoverlay-1.3.jar')
        }
    }
    ```
