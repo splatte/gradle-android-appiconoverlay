@@ -43,6 +43,9 @@ Plugin for Android Gradle to automatically overlay the app icon with information
     # osx
     sudo port install imagemagick
     sudo brew install imagemagick
+    
+    # required on osx otherwise imagemagick (silently) goes into an infinite loop complaining about missing fonts
+    sudo brew install ghostscript
     ```
 
 The plugin will hook into your build process automatically and overwrite the target app icon files for debug builds. It will not mess with any files in your repository.
