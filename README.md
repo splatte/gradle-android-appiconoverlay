@@ -34,7 +34,13 @@ Plugin for Android Gradle to automatically overlay the app icon with information
     }
     ```
 
-3. You will need ``convert`` from the [ImageMagick](http://imagemagick.org/) project to do the image processing. You can install it using a command along the lines of:
+3. For those using Gradle 3.+ disable aapt2 in your app module's ``gradle.properties`` file:
+
+    ```groovy
+    android.enableAapt2=false
+    ```
+
+4. You will need ``convert`` from the [ImageMagick](http://imagemagick.org/) project to do the image processing. You can install it using a command along the lines of:
 
     ```bash
     # debian/ubuntu

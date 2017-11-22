@@ -23,7 +23,16 @@ class AppIconOverlayPlugin implements Plugin<Project> {
             variant.outputs.each { output ->
                 /* set up overlay task */
                 def overlayTask = project.task(type:OverlayTask, "${TASK_NAME}${variant.name.capitalize()}") {
-                    manifestFile = output.processManifest.manifestOutputFile
+                    try {
+                        // Android Gradle Plugin < 3.0.0
+                        manifestFile = output.processManifest.manifestOutputFile
+                    } catch (Exception ignored) {
+                        // Android Gradle Plugin >= 3.0.0
+                        manifestFile = new File(output.processManifest.manifestOutputDirectory, "AndroidManifest.xml")
+                        if (!manifestFile.isFile()) {
+                            manifestFile = new File(new File(output.processManifest.manifestOutputDirectory, output.dirName),"AndroidManifest.xml")
+                        }
+                    }
                     resourcesPath = variant.mergeResources.outputDir
                     buildVariant = "${variant.name.capitalize()}"
                 }
