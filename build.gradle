@@ -9,7 +9,7 @@ plugins {
 }
 
 group = 'com.github.splatte'
-version = '1.3'
+version = '2.0'
 
 apply plugin: 'groovy'
 apply plugin: 'maven-publish'
@@ -45,7 +45,7 @@ bintray {
         publicDownloadNumbers = false
 
         version {
-            name = '1.3'
+            name = '2.0'
         }
     }
 }

@@ -16,7 +16,7 @@ Plugin for Android Gradle to automatically overlay the app icon with information
     ```groovy
     buildscript {
         dependencies {
-            classpath 'com.github.splatte:gradle-android-appiconoverlay:1.3'
+            classpath 'com.github.splatte:gradle-android-appiconoverlay:2.0'
         }
     }
     ```
@@ -49,7 +49,7 @@ Plugin for Android Gradle to automatically overlay the app icon with information
     # osx
     sudo port install imagemagick
     sudo brew install imagemagick
-    
+
     # required on osx otherwise imagemagick (silently) goes into an infinite loop complaining about missing fonts
     sudo brew install ghostscript
     ```
@@ -87,7 +87,7 @@ If you want to make changes to the plugin, here's how you can build it locally a
    ```groovy
    buildscript {
        dependencies {
-           classpath files('/path/to/gradle-android-appiconoverlay/build/libs/gradle-android-appiconoverlay-1.3.jar')
+           classpath files('/path/to/gradle-android-appiconoverlay/build/libs/gradle-android-appiconoverlay-2.0.jar')
        }
    }
    ```
