@@ -28,7 +28,14 @@ class OverlayTask extends DefaultTask {
             dir.eachFileMatch(FileType.FILES, ~"^${iconFileName}.*") { file ->
                 logger.debug("found file: ${file}")
 
+                // TODO: after upgrading from android-gradle 2.x to 3.x, .xml where matched here as well which ImageMagick cannot handle.
+                //       probably the two regexes above that match dir/files need updating. simply filter xml files like this
                 def img = ImageIO.read(file);
+                if(!img) {
+                  logger.debug("could not open, skipping: ${file}")
+                  return;
+                }
+
                 def formatBinding = ['branch': queryGit("abbrev-ref"), 'commit': queryGit("short"), 'build': buildVariant]
                 def caption = new SimpleTemplateEngine().createTemplate(project.appiconoverlay.format).make(formatBinding)
 
